@@ -14,7 +14,13 @@ export default async function handler(req, res) {
     }) 
     res.status(200).json({ ...productDoc })
   } else {
-    const products = await Product.find()
-    res.status(200).json(products)
+
+    if (req.query?.id) {
+      const product = await Product.findOne({ _id: req.query.id })
+      res.status(200).json(product)
+    } else {
+      const products = await Product.find()
+      res.status(200).json(products)
+    }
   }
 }
